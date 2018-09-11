@@ -18,7 +18,16 @@ client.open(err => {
         let message = new device.Message(JSON.stringify({
             simulated: true,
             deviceId: deviceName,
-            temperature: getTemperature()
+            uuid: "00000001",
+            major: 0,                             
+            minor: 0,                            
+            measuredPower: 0,                      
+            rssi: -255,                               
+            accuracy: 4.081852517778045,             
+            proximity: "far",         
+            temperature: getTemperature(),
+            humidity: getHumidity(),
+            lux: getLux()
         }));
         console.log('sending message to cloud -->');
         client.sendEvent(message, (err, res) => {
@@ -27,11 +36,22 @@ client.open(err => {
     }, 5000);
 });
 
+var baseHumidity = 60;
 var baseTemp = 23;
+var baseLux = 111;
+
 
 function getTemperature() {
     return baseTemp + getRandomNumber(0, 3) + getRandomNumber(1, 20) / 10;
 }
+function getHumidity() {
+    return baseHumidity + getRandomNumber(0, 1) + getRandomNumber(1, 20) / 10;
+}
+
+function getLux() {
+    return baseLux + getRandomNumber(0, 5) + getRandomNumber(1, 20) / 10;
+}
+
 
 function getRandomNumber(min, max) {
     return (Math.floor(Math.random() * (max - min + 1)) + min);
