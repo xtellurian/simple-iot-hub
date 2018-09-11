@@ -6,8 +6,8 @@ COPY package*.json ./
 
 RUN npm install --production
 
-COPY app.js ./
+COPY index.js ./
 
 USER node
 
-CMD ["node", "app.js"]
+CMD ["node", "index.js"]
