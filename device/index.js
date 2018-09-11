@@ -16,12 +16,23 @@ client.open(err => {
     // send a D2C message repeatedly
     setInterval(function () {
         let message = new device.Message(JSON.stringify({
+            simulated: true,
             deviceId: deviceName,
-            value: Math.random()
+            temperature: getTemperature()
         }));
         console.log('sending message to cloud -->');
-        client.sendEvent(message, (err,res) => {
-            if(err) console.log(err);
+        client.sendEvent(message, (err, res) => {
+            if (err) console.log(err);
         });
     }, 5000);
 });
+
+var baseTemp = 23;
+
+function getTemperature() {
+    return baseTemp + getRandomNumber(0, 3) + getRandomNumber(1, 20) / 10;
+}
+
+function getRandomNumber(min, max) {
+    return (Math.floor(Math.random() * (max - min + 1)) + min);
+}
